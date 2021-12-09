@@ -10,6 +10,10 @@ pip install -r requirements.txt
 ploomber build --force
 ```
 
+## Pipeline Visualisation
+
+![Pipeline](pipeline.png)
+
 ## Data:
 - RKI Nowcasting: https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Projekte_RKI/Nowcasting.html
 - Covid-19 Mobility Project: https://www.covid-19-mobility.org/contact-index/
