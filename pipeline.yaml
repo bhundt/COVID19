@@ -1,0 +1,83 @@
+tasks:
+  - source: scripts/retrieval/download.py
+    name: download
+    product:
+      nb: 'products/download.html'
+      time_series_repro_germany: 'data/raw/time_series_repro_germany.csv'
+      time_series_covid19_confirmed_global: 'data/raw/time_series_covid19_confirmed_global.csv'
+      time_series_covid19_deaths_global: 'data/raw/time_series_covid19_deaths_global.csv'
+      time_series_vac_germany: 'data/raw/time_series_vac_germany.csv'
+      time_series_its_germany: 'data/raw/time_series_its_germany.csv'
+      time_series_contacts_germany: 'data/raw/time_series_contacts_germany.csv'
+    params:
+      datasets: '{{datasets}}'
+
+  - source: scripts/transform/etl_new_cases.py
+    name: 'new cases for GER'
+    product:
+      nb: 'products/etl_new_cases.html'
+      data: 'data/processed/new_cases_ger.csv'
+  
+  - source: scripts/transform/etl_new_deaths.py
+    name: 'new deaths for GER'
+    product:
+      nb: 'products/etl_new_deaths.html'
+      data: 'data/processed/new_deaths_ger.csv'
+
+  - source: scripts/transform/etl_ITS.py
+    name: 'total on ITS'
+    product:
+      nb: 'products/etl_ITS.html'
+      data: 'data/processed/its_ger.csv'
+
+  - source: scripts/transform/clean_repro.py
+    name: 'clean repro ger'
+    product:
+      nb: 'products/clean_repro.html'
+      data: 'data/processed/cleaned_repro.csv'
+
+  - source: scripts/transform/calc_recovered_cases.py
+    name: 'recovered cases ger'
+    product:
+      nb: 'products/calc_recovered_cases.html'
+      data: 'data/processed/new_recovered_ger.csv'
+    params:
+      number_sick_days: '{{number_sick_days}}'
+
+  - source: scripts/transform/calc_active_cases.py
+    name: 'active cases ger'
+    product:
+      nb: 'products/calc_ractive_cases.html'
+      data: 'data/processed/active_ger.csv'
+
+  - source: scripts/analysis/plot_active_cases.py
+    name: 'plot active cases ger'
+    product:
+      nb: 'products/plot_active_cases.html'
+      plot: 'products/plots/active_ger.jpg'
+  
+  - source: scripts/analysis/plot_deltas.py
+    name: 'plot deltas'
+    product:
+      nb: 'products/plot_deltas.html'
+      plot: 'products/plots/deltas.jpg'
+    params:
+      rolling_window: '{{rolling_window_delta}}'
+
+  - source: scripts/analysis/calc_doubling_times.py
+    name: 'calc doubling times'
+    product:
+      nb: 'products/calc_doubling_times.html'
+      data: 'data/processed/doubling_times.csv'
+    
+  - source: scripts/analysis/plot_corr_contacts_repro.py
+    name: 'plot corr contacts repro'
+    product:
+      nb: 'products/plot_corr_contacts_repro.html'
+      plot: 'products/plots/plot_corr_contacts_repro.jpg'
+  
+  - source: scripts/analysis/plot_cross_corr_contacts_repro.py
+    name: 'plot cross corr contacts repro'
+    product:
+      nb: 'products/plot_cross_corr_contacts_repro.html'
+      plot: 'products/plots/plot_cross_corr_contacts_repro.jpg'
