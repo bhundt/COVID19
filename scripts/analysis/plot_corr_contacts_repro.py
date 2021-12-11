@@ -17,7 +17,7 @@ import matplotlib.pyplot as plt
 #from scipy.stats import linregress
 from scipy.optimize import curve_fit
 import numpy as np
-from datetime import date
+#from datetime import date
 
 # + tags=["parameters"]
 upstream = ['download', 'clean repro ger']
@@ -34,10 +34,11 @@ contacts['CX_custom'] = contacts.k_7davg
 contacts = contacts.shift(0) 
 
 aux = contacts.merge(repro, on='date', how='inner')
+print(aux[['PS_7_Tage_R_Wert', 'CX_custom']])
 aux = aux.dropna()
 
 # the cutoff dates for the different waves in germany
-dates = ['2020-1-1', '2020-7-1', '2021-2-15', '2021-7-1', date.today().strftime('%Y-%m-%d')]
+dates = ['2020-1-1', '2020-7-1', '2021-2-15', '2021-7-1', aux.iloc[-1].name.date()]
 
 # linear reg
 def func(x, m):
@@ -67,6 +68,13 @@ for i, v in enumerate(dates[:-1]):
                 linestyle='', 
                 color=(marker_colors[i][0]/255, marker_colors[i][1]/255, marker_colors[i][2]/255), 
                 label=f'data for wave {i+1}: {dates[i]}  -  {dates[i+1]}')
+# plot last data point in black
+ax.plot(aux.iloc[-1].CX_custom, aux.iloc[-1].PS_7_Tage_R_Wert, 
+                marker='s',
+                markersize=3.0,
+                linestyle='', 
+                color=(0.2, 0.2,0.2), 
+                label=f'last data point:  {aux.iloc[-1].name.date()}')
 
 # plot lin reg
 mn = np.min(aux.loc[dates[1]:dates[4]].CX_custom)

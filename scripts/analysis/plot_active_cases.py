@@ -35,7 +35,7 @@ ax.title.set_text('active infections')
 
 ax = plt.subplot(2, 1, 2)
 ax.plot(its.index, its.total_its, 'orange')
-ax.title.set_text('on ITS')
+ax.title.set_text('on ICU')
 
 plt.tight_layout()
 fig.savefig(product['plot'], dpi=300)
